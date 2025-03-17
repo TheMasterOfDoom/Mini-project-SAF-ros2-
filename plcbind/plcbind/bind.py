@@ -1,9 +1,11 @@
-from time import sleep
+#from time import sleep
 from socket import socket
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
 import socket
+import xml.dom.minidom 
+
 
 
 class PLC_Bind(Node):
@@ -20,27 +22,28 @@ class PLC_Bind(Node):
     
  
     def handle_msg(self, msg):
+        print(msg)
         self.publisher.publish(String(data=msg))
 
     def server(self):
         self.sock.bind(("0.0.0.0",6969))
         self.sock.listen(2)
         self.conn, addr = self.sock.accept()
-        self.sock.settimeout(0.1)
+        print(addr)
+        #self.sock.settimeout(0.1)
         while True:
-            rclpy.spin_once(self)
-
-            if self.nextmsg != "":
-                self.conn.sendall(self.nextmsg.encode())
-                self.nextmsg=""
+            rclpy.spin_once(self,timeout_sec=1)
 
             try:
                 raw = self.conn.recv(1024).decode()
+                temp = xml.dom.minidom.parseString(raw) 
+                new_xml = temp.toprettyxml() 
+                print(new_xml) 
             except:
                 pass
             if not raw:
                 continue
-            
+            self.conn.sendall("2000".encode())
             self.handle_msg(raw)
 
 
@@ -51,7 +54,7 @@ def main(args=None):
 
     bot = PLC_Bind()
 
-    bot.tcp.server()
+    bot.server()
 
 if __name__ == '__main__':
     main()
