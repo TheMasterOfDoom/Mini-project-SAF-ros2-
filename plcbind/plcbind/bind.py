@@ -26,13 +26,14 @@ class PLC_Bind(Node):
         self.publisher.publish(String(data=msg))
 
     def server(self):
-        self.sock.bind(("0.0.0.0",6969))
+        raw = ""
+        self.sock.bind(("0.0.0.0",6968))
         self.sock.listen(2)
         self.conn, addr = self.sock.accept()
         print(addr)
-        #self.sock.settimeout(0.1)
+        self.sock.settimeout(0.5)
         while True:
-            rclpy.spin_once(self,timeout_sec=1)
+            rclpy.spin_once(self,timeout_sec=0.5)
 
             try:
                 raw = self.conn.recv(1024).decode()
@@ -41,8 +42,9 @@ class PLC_Bind(Node):
                 print(new_xml) 
             except:
                 pass
-            if not raw:
+            if not raw or raw == "":
                 continue
+
             self.conn.sendall("2000".encode())
             self.handle_msg(raw)
 
