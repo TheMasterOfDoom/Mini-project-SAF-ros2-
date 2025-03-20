@@ -1,0 +1,5 @@
+int64 carrierid
+int64 stationid
+string readtime
+---
+int64 procsestime 

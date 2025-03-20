@@ -21,6 +21,8 @@ setup(
     entry_points={
         'console_scripts': [
             'bind = plcbind.bind:main',
+            'stub = plcbind.plc_stub:main',
+            'calc = plcbind.calc_process:main',
             "joint_state_publisher_gui = plcbind.joint_state_publisher_gui:main"
         ],
     },
