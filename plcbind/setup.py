@@ -23,6 +23,7 @@ setup(
             'bind = plcbind.bind:main',
             'stub = plcbind.plc_stub:main',
             'calc = plcbind.calc_process:main',
+            'dumb = plcbind.dumber:main',
             "joint_state_publisher_gui = plcbind.joint_state_publisher_gui:main"
         ],
     },

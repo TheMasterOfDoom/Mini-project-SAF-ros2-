@@ -49,6 +49,8 @@ def main():
 
     rclpy.spin(minimal_service)
 
+    minimal_service.destroy_node()
+
     rclpy.shutdown()
 
 
