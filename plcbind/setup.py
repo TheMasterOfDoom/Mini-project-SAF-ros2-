@@ -24,6 +24,7 @@ setup(
             'stub = plcbind.plc_stub:main',
             'calc = plcbind.calc_process:main',
             'dumb = plcbind.dumber:main',
+            'gui  = plcbind.web_gui:main',
             "joint_state_publisher_gui = plcbind.joint_state_publisher_gui:main"
         ],
     },

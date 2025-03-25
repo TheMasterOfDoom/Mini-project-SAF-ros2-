@@ -19,3 +19,8 @@ launch:
     pkg: "plcbind"
     exec: "dumb"
     name: "dumb"
+
+- node:
+    pkg: "plcbind"
+    exec: "gui"
+    name: "gui"
