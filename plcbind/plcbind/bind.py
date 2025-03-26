@@ -52,7 +52,7 @@ class PLC_Bind(Node):
         self.sock.bind(("localhost",6969))
         self.sock.listen(2)
         self.conn, addr = self.sock.accept()
-        print(addr)
+        self.get_logger().info('connected:' + str(addr))
         self.sock.settimeout(0.5)
         while True:
             rclpy.spin_once(self,timeout_sec=0.2)
