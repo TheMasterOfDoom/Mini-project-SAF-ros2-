@@ -1,0 +1,21 @@
+launch:
+
+- node:
+    pkg: "plcbind"
+    exec: "bind"
+    name: "plcbind"
+
+- node:
+    pkg: "plcbind"
+    exec: "calc"
+    name: "sev"
+
+- node:
+    pkg: "plcbind"
+    exec: "dumb"
+    name: "dumb"
+
+- node:
+    pkg: "plcbind"
+    exec: "gui"
+    name: "gui"
