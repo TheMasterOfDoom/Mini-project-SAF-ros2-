@@ -27,9 +27,11 @@ class PLC_Bind(Node):
     
  
     def handle_msg(self, msg):
+        msg = msg.replace('DT#', '').replace('STPLC_', '').strip().replace(msg.split(">")[-1], '')
+        self.get_logger().info(msg)
         tree = ET.fromstring(msg)
-        cid = int(tree.find('cid').text)
-        sid = int(tree.find('sid').text)
+        cid = int(tree.find('cID').text)
+        sid = int(tree.find('sID').text)
         readtime = tree.find('dt').text
         self.req.carrierid = cid
         self.req.stationid = sid
@@ -40,24 +42,24 @@ class PLC_Bind(Node):
         self.publisher.publish(self.dumb)
         self.get_logger().info('xml: %s' % msg)
         future = self.cli.call_async(self.req)
-        future.add_done_callback(self.set_next_msg)
-    
-    def set_next_msg(self, future):
+        rclpy.spin_until_future_complete(self, future)
         response = future.result()
-        self.nextmsg = str(response.procsestime)
+        self.nextmsg = str(response.procsestime).replace('None', '')
         self.get_logger().info('response: %d' % response.procsestime)
+    
 
     def server(self):
         raw = ""
-        self.sock.bind(("localhost",6969))
+        self.sock.bind(("0.0.0.0",6969))
         self.sock.listen(2)
         self.conn, addr = self.sock.accept()
         self.get_logger().info('connected:' + str(addr))
-        self.sock.settimeout(0.5)
+        self.sock.settimeout(0.2)
         while True:
             rclpy.spin_once(self,timeout_sec=0.2)
 
             if self.nextmsg != "":
+                self.get_logger().info('next: %s' % str(len(self.nextmsg)))
                 self.conn.sendall(self.nextmsg.encode())
                 self.nextmsg = ""
 
@@ -72,6 +74,9 @@ class PLC_Bind(Node):
 
             time = self.handle_msg(raw)
             self.conn.sendall(str(time).encode())
+
+    def __del__(self):
+        self.sock.close()
 
 
 
