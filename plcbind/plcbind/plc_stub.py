@@ -19,7 +19,7 @@ class PLCStub:
     def send_carrier(self, cid, sid):
         if self.sock:
             try:
-                message = f"<PLC><sid>{sid}</sid><cid>{cid}</cid><dt>1</dt></PLC>"
+                message = f"<PLC><sID>{sid}</sID><cID>{cid}</cID><dt>1</dt></PLC>e"
                 self.sock.sendall(message.encode('utf-8'))
                 print(f"Sent: {message}")
             except socket.error as e:
