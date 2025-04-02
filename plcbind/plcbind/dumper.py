@@ -3,19 +3,19 @@ import rclpy
 from rclpy.node import Node
 
 
-class Dumber(Node):
+class Dumper(Node):
     def __init__(self):
-        super().__init__('dumber')
+        super().__init__('dumper')
         self.subscription = self.create_subscription(CarierData, 'plc_out', self.listener_callback, 20)
 
     def listener_callback(self, msg):
-        with open("dumber.txt", "a") as f:
+        with open("dumper.txt", "a") as f:
             f.write(f"{msg.carrierid},{msg.stationid},{msg.readtime}\n")
 
 
 def main():
     rclpy.init()
-    dumber = Dumber()
-    rclpy.spin(dumber)
-    dumber.destroy_node()
+    dumper = Dumper()
+    rclpy.spin(dumper)
+    dumper.destroy_node()
     rclpy.shutdown()

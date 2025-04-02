@@ -19,7 +19,7 @@ class PLC_Bind(Node):
         while not self.cli.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('service not available, waiting again...')
         self.req = CarierProcess.Request()
-        self.dumb = CarierData()
+        self.dump = CarierData()
 
 
     def listener_callback(self, msg):
@@ -36,10 +36,10 @@ class PLC_Bind(Node):
         self.req.carrierid = cid
         self.req.stationid = sid
         self.req.readtime = readtime
-        self.dumb.carrierid = cid
-        self.dumb.stationid = sid
-        self.dumb.readtime = readtime
-        self.publisher.publish(self.dumb)
+        self.dump.carrierid = cid
+        self.dump.stationid = sid
+        self.dump.readtime = readtime
+        self.publisher.publish(self.dump)
         self.get_logger().info('xml: %s' % msg)
         future = self.cli.call_async(self.req)
         rclpy.spin_until_future_complete(self, future)

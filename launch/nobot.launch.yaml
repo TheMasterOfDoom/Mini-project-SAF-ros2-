@@ -1,26 +1,25 @@
 launch:
+  - node:
+      pkg: "plcbind"
+      exec: "bind"
+      name: "plcbind"
 
-- node:
-    pkg: "plcbind"
-    exec: "bind"
-    name: "plcbind"
+  - node:
+      pkg: "plcbind"
+      exec: "stub"
+      name: "stub"
 
-- node:
-    pkg: "plcbind"
-    exec: "stub"
-    name: "stub"
+  - node:
+      pkg: "plcbind"
+      exec: "calc"
+      name: "sev"
 
-- node:
-    pkg: "plcbind"
-    exec: "calc"
-    name: "sev"
+  - node:
+      pkg: "plcbind"
+      exec: "dump"
+      name: "dump"
 
-- node:
-    pkg: "plcbind"
-    exec: "dumb"
-    name: "dumb"
-
-- node:
-    pkg: "plcbind"
-    exec: "gui"
-    name: "gui"
+  - node:
+      pkg: "plcbind"
+      exec: "gui"
+      name: "gui"
